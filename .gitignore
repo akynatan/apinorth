@@ -1,0 +1,14 @@
+.idea/
+.vscode/
+node_modules/
+build/
+temp/
+.env
+coverage
+dist/
+ormconfig.json
+tmp/uploads/*
+database/
+
+!tmp/.gitkeep
+report-storage-fee.json
