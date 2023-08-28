@@ -3,10 +3,7 @@ import 'dotenv/config';
 
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
-import cron from 'node-cron';
 import 'express-async-errors';
-
-import CronUpdateToken from '@crons/CronUpdateToken';
 
 import AppError from './shared/errors/AppError';
 import routes from './routes';
@@ -34,11 +31,5 @@ app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
 });
 
 app.listen(Number(process.env.PORT) || 3333, () => {
-  const cronUpdateToken = new CronUpdateToken();
-
-  cron.schedule('0 0 5,10,15,25,1 * *', () => cronUpdateToken.execute(), {
-    timezone: 'America/Sao_Paulo',
-  });
-
   console.log(`🚀 Server started on port ${process.env.PORT || 3333}`);
 });

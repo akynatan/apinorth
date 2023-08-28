@@ -26,6 +26,8 @@
         "@crons/*": ["crons/*"],
         "@errors/*": ["errors/*"],
         "@constants/*": ["constants/*"],
+        "@helpers/*": ["helpers/*"],
+        "@middlewares/*": ["middlewares/*"]
     }
   }
 }

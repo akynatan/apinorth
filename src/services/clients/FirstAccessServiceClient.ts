@@ -12,9 +12,10 @@ import IClientTokensRepository from '@irepositories/IClientTokensRepository';
 
 import SankhyaRequest from '@services/sankhya/SankhyaRequest'
 
+import { order } from '@helpers/index'
+
 interface IRequest {
   document: string;
-  date_nasc: string;
 }
 
 interface IResponse {
@@ -29,14 +30,13 @@ export default class FirstAccessServiceClient {
     private clientTokensRepository: IClientTokensRepository = new ClientTokensRepository(),
 
     private sankhyaRequest = new SankhyaRequest(),
-  ) {}
+  ) { }
 
   public async execute({
-    document,
-    date_nasc
+    document
   }: IRequest): Promise<IResponse> {
-    if (!document || !date_nasc) {
-      throw new AppError('Favor preencher o cpf/cnpj e data de nascimento/fundação.');
+    if (!document) {
+      throw new AppError('Favor preencher o cnpj');
     }
 
     const documentClean = document.replace(/\D/g, '');
@@ -46,9 +46,9 @@ export default class FirstAccessServiceClient {
     );
 
     if (checkClientExists && checkClientExists.password) {
-      throw new AppError('CPF/CNPJ já está cadastrado.');
+      throw new AppError('CNPJ já está cadastrado.');
     }
-    
+
     await this.sankhyaRequest.init();
     const response = await this.sankhyaRequest.execute({
       method: 'get',
@@ -62,12 +62,12 @@ export default class FirstAccessServiceClient {
             offsetPage: "0",
             criteria: {
               expression: {
-                $: `this.CGC_CPF = ${document} AND DTNASC = '${date_nasc}'`
+                $: `this.CGC_CPF = ${document}`
               }
             },
             entity: {
               fieldset: {
-                list: "CODPARC,CGC_CPF,NOMEPARC,RAZAOSOCIAL,TIPPESSOA,DTNASC"
+                list: "CODPARC,CGC_CPF,NOMEPARC,RAZAOSOCIAL,TIPPESSOA,DTNASC,EMAIL"
               }
             }
           }
@@ -90,7 +90,7 @@ export default class FirstAccessServiceClient {
       throw new AppError('CPF duplicado na base de dados. Favor contatar o suporte');
     }
 
-    const valuesClients = Object.entries(responseClient.entity).map(b => b[1]).map((c: any) => c.$);
+    const valuesClients = Object.entries(responseClient.entity).sort(order).map(b => b[1]).map((c: any) => c.$);
     const fields = responseClient.metadata.fields.field;
 
     let client: IClientSankhya = {} as IClientSankhya;
@@ -108,6 +108,7 @@ export default class FirstAccessServiceClient {
         corporate_name: client.RAZAOSOCIAL,
         kind_of_person: client.TIPPESSOA,
         date_nasc: client.DTNASC,
+        email: client.EMAIL
       });
     }
 

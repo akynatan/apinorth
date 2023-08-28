@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import AuthenticationClientService from '@services/clients/AuthenticationClientService';
+import { classToClass } from 'class-transformer'
 
 const authenticationRouter = Router();
 
@@ -14,7 +15,7 @@ authenticationRouter.post('/', async (request, response) => {
     password,
   });
 
-  return response.json({ client, token });
+  return response.json({ client: classToClass(client), token });
 });
 
 export default authenticationRouter;

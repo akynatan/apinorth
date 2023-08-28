@@ -5,4 +5,5 @@ export default interface IClientSankhya {
   RAZAOSOCIAL: string;
   TIPPESSOA: string;
   DTNASC: string;
+  EMAIL: string;
 }

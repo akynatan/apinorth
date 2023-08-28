@@ -5,5 +5,5 @@ createConnection()
     console.log('connection default');
   })
   .catch(error => {
-    console.log('error', error);
+    console.log('connection error database', error);
   });

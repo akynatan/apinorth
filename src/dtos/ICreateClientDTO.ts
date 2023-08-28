@@ -5,4 +5,5 @@ export default interface ICreateClientDTO {
   corporate_name: string;
   kind_of_person: string;
   date_nasc: string;
+  email: string;
 }

@@ -21,6 +21,10 @@ export default class CreateClients1604861932265 implements MigrationInterface {
             name: 'external_id',
             type: 'varchar',
             isNullable: true,
+          },          {
+            name: 'email',
+            type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'name',

@@ -17,6 +17,9 @@ export default class Client {
   external_id: string;
 
   @Column()
+  email: string;
+
+  @Column()
   name: string;
 
   @Column()

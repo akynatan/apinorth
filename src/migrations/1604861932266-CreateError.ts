@@ -14,23 +14,13 @@ export default class CreateError1604861932266 implements MigrationInterface {
             default: 'uuid_generate_v4()',
           },
           {
-            name: 'name',
+            name: 'type',
             type: 'varchar',
             isNullable: true,
           },
           {
             name: 'exception',
-            type: 'varchar(10000)',
-            isNullable: true,
-          },
-          {
-            name: 'instance_name',
-            type: 'varchar',
-            isNullable: true,
-          },
-          {
-            name: 'instance_id',
-            type: 'varchar',
+            type: 'varchar(20000)',
             isNullable: true,
           },
           {
