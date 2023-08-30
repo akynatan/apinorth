@@ -12,7 +12,7 @@ export default class Error {
   id: string;
 
   @Column({ nullable: true })
-  name: string;
+  type: string;
 
   @Column({ nullable: true })
   exception: string;

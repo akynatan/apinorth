@@ -1,4 +1,4 @@
 export default interface ICreateErrorDTO {
-  name?: string;
+  type?: string;
   exception?: string;
 }
