@@ -18,6 +18,9 @@ module.exports = {
         '@crons': './src/crons',
         '@errors': './src/errors',
         '@constants': './src/constants',
+        '@constants': './src/constants',
+        '@helpers': './src/helpers',
+        '@middlewares': './src/middleware'
       }
     }],
     'babel-plugin-transform-typescript-metadata',
