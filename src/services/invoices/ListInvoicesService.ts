@@ -60,7 +60,7 @@ export default class ListInvoicesService {
         exception: JSON.stringify(response.data),
       });
 
-      throw new AppError('Erro ao buscar dados de clientes.');
+      throw new AppError('Erro ao buscar notas fiscais.');
     }
 
     if (!response.data.responseBody) {
