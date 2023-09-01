@@ -2,17 +2,14 @@ import Client from '@entities/Client';
 
 import AppError from '@shared/errors/AppError';
 
-import IClientSankhya from 'dtos/IClientSankhya'
+import IClientSankhya from 'dtos/IClientSankhya';
 
 import ClientsRepository from '@repositories/ClientsRepository';
-import IClientsRepository from '@irepositories/IClientsRepository';
-
 import ClientTokensRepository from '@repositories/ClientTokensRepository';
-import IClientTokensRepository from '@irepositories/IClientTokensRepository';
 
-import SankhyaRequest from '@services/sankhya/SankhyaRequest'
+import SankhyaRequest from '@services/sankhya/SankhyaRequest';
 
-import { order } from '@helpers/index'
+import { order } from '@helpers/index';
 
 interface IRequest {
   document: string;
@@ -25,16 +22,14 @@ interface IResponse {
 
 export default class FirstAccessServiceClient {
   constructor(
-    private clientsRepository: IClientsRepository = new ClientsRepository(),
+    private clientsRepository = new ClientsRepository(),
 
-    private clientTokensRepository: IClientTokensRepository = new ClientTokensRepository(),
+    private clientTokensRepository = new ClientTokensRepository(),
 
     private sankhyaRequest = new SankhyaRequest(),
-  ) { }
+  ) {}
 
-  public async execute({
-    document
-  }: IRequest): Promise<IResponse> {
+  public async execute({ document }: IRequest): Promise<IResponse> {
     if (!document) {
       throw new AppError('Favor preencher o cnpj');
     }
@@ -42,7 +37,7 @@ export default class FirstAccessServiceClient {
     const documentClean = document.replace(/\D/g, '');
 
     let checkClientExists = await this.clientsRepository.findByDocument(
-      documentClean
+      documentClean,
     );
 
     if (checkClientExists && checkClientExists.password) {
@@ -54,26 +49,26 @@ export default class FirstAccessServiceClient {
       method: 'get',
       url: 'service.sbr?serviceName=CRUDServiceProvider.loadRecords&outputType=json',
       data: {
-        serviceName: "CRUDServiceProvider.loadRecords",
+        serviceName: 'CRUDServiceProvider.loadRecords',
         requestBody: {
           dataSet: {
-            rootEntity: "Parceiro",
-            includePresentationFields: "N",
-            offsetPage: "0",
+            rootEntity: 'Parceiro',
+            includePresentationFields: 'N',
+            offsetPage: '0',
             criteria: {
               expression: {
-                $: `this.CGC_CPF = ${document}`
-              }
+                $: `this.CGC_CPF = ${document}`,
+              },
             },
             entity: {
               fieldset: {
-                list: "CODPARC,CGC_CPF,NOMEPARC,RAZAOSOCIAL,TIPPESSOA,DTNASC,EMAIL"
-              }
-            }
-          }
-        }
-      }
-    })
+                list: 'CODPARC,CGC_CPF,NOMEPARC,RAZAOSOCIAL,TIPPESSOA,DTNASC,EMAIL',
+              },
+            },
+          },
+        },
+      },
+    });
 
     if (!response.data.responseBody) {
       throw new AppError('Cliente não encontrado.');
@@ -87,18 +82,25 @@ export default class FirstAccessServiceClient {
     }
 
     if (totalClients > 1) {
-      throw new AppError('CPF duplicado na base de dados. Favor contatar o suporte');
+      throw new AppError(
+        'CPF duplicado na base de dados. Favor contatar o suporte',
+      );
     }
 
-    const valuesClients = Object.entries(responseClient.entity).sort(order).map(b => b[1]).map((c: any) => c.$);
+    const valuesClients = Object.entries(responseClient.entity)
+      .sort(order)
+      .map(b => b[1])
+      .map((c: any) => c.$);
     const fields = responseClient.metadata.fields.field;
 
     let client: IClientSankhya = {} as IClientSankhya;
 
-    await Promise.all(fields.map((field: any, index: number) => {
-      client[field.name as keyof IClientSankhya] = valuesClients[index];
-      return field;
-    }));
+    await Promise.all(
+      fields.map((field: any, index: number) => {
+        client[field.name as keyof IClientSankhya] = valuesClients[index];
+        return field;
+      }),
+    );
 
     if (!checkClientExists) {
       checkClientExists = await this.clientsRepository.create({
@@ -108,11 +110,13 @@ export default class FirstAccessServiceClient {
         corporate_name: client.RAZAOSOCIAL,
         kind_of_person: client.TIPPESSOA,
         date_nasc: client.DTNASC,
-        email: client.EMAIL
+        email: client.EMAIL,
       });
     }
 
-    const { token } = await this.clientTokensRepository.generate(checkClientExists.id);
+    const { token } = await this.clientTokensRepository.generate(
+      checkClientExists.id,
+    );
 
     return { client: checkClientExists, token: token };
   }

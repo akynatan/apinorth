@@ -20,7 +20,9 @@ module.exports = {
         '@constants': './src/constants',
         '@constants': './src/constants',
         '@helpers': './src/helpers',
-        '@middlewares': './src/middlewares'
+        '@middlewares': './src/middlewares',
+        '@providers': './src/providers',
+        '@views': './src/views',
       }
     }],
     'babel-plugin-transform-typescript-metadata',

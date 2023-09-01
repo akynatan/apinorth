@@ -22,12 +22,13 @@ invoicesRouter.post('/:id/download', async (request, response) => {
   const downloadInvoiceService = new DownloadInvoiceService();
 
   const invoice_id = request.params.id;
+  const client_id = request.user.id;
 
-  const invoice = await downloadInvoiceService.execute(invoice_id);
+  const invoice = await downloadInvoiceService.execute(invoice_id, client_id);
 
   response.setHeader('Content-Type', 'application/pdf');
 
-  return response.send(invoice)
+  return response.send(invoice);
 });
 
 export default invoicesRouter;

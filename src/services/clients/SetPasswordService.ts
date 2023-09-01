@@ -3,12 +3,9 @@ import { isAfter, addHours } from 'date-fns';
 import AppError from '@shared/errors/AppError';
 
 import ClientsRepository from '@repositories/ClientsRepository';
-import IClientsRepository from '@irepositories/IClientsRepository';
 
 import ClientTokensRepository from '@repositories/ClientTokensRepository';
-import IClientTokensRepository from '@irepositories/IClientTokensRepository';
 
-import IHashProvider from '@shared/container/providers/HashProvider/models/IHashProvider';
 import BCryptHashProvider from '@shared/container/providers/HashProvider/implementations/BCryptHashProvider';
 
 interface IRequest {
@@ -18,11 +15,11 @@ interface IRequest {
 
 export default class SetPasswordService {
   constructor(
-    private clientsRepository: IClientsRepository = new ClientsRepository(),
+    private clientsRepository = new ClientsRepository(),
 
-    private clientTokensRepository: IClientTokensRepository = new ClientTokensRepository(),
+    private clientTokensRepository = new ClientTokensRepository(),
 
-    private hashProvider: IHashProvider = new BCryptHashProvider(),
+    private hashProvider = new BCryptHashProvider(),
   ) {}
 
   public async execute({ password, token }: IRequest): Promise<void> {
@@ -46,11 +43,13 @@ export default class SetPasswordService {
     const compareDate = addHours(tokenCreatedAt, 2);
 
     if (isAfter(Date.now(), compareDate)) {
-      throw new AppError('Token expirado. Faça o cadastro novamente em Primeiro Acesso');
+      throw new AppError(
+        'Token expirado. Faça o cadastro novamente em Primeiro Acesso',
+      );
     }
     client.password = await this.hashProvider.generateHash(password);
-    
-    await this.clientTokensRepository.delete(clientToken.id)
+
+    await this.clientTokensRepository.delete(clientToken.id);
     await this.clientsRepository.save(client);
   }
 }

@@ -27,7 +27,9 @@
         "@errors/*": ["errors/*"],
         "@constants/*": ["constants/*"],
         "@helpers/*": ["helpers/*"],
-        "@middlewares/*": ["middlewares/*"]
+        "@middlewares/*": ["middlewares/*"],
+        "@providers/*": ["providers/*"],
+        "@views/*": ["views/*"]
     }
   }
 }

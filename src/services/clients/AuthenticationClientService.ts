@@ -23,7 +23,7 @@ interface IResponse {
 export default class AuthenticationClientService {
   constructor(
     private clientsRepository: IClientsRepository = new ClientsRepository(),
-            
+
     private hashProvider: IHashProvider = new BCryptHashProvider(),
   ) {}
 
@@ -31,7 +31,7 @@ export default class AuthenticationClientService {
     const client = await this.clientsRepository.findByDocument(document);
 
     if (!client) {
-      throw new AppError('Documento ou senha incorreto.', 401);
+      throw new AppError('Documento ou senha incorreto.', 400);
     }
 
     const passwordMatched = await this.hashProvider.compareHash(
@@ -40,7 +40,7 @@ export default class AuthenticationClientService {
     );
 
     if (!passwordMatched) {
-      throw new AppError('Documento ou senha incorreto.', 401);
+      throw new AppError('Documento ou senha incorreto.', 400);
     }
 
     const { secret, expiresIn } = authConfig.jwt;

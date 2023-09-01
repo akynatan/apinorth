@@ -6,16 +6,12 @@ import SetPasswordService from '@services/clients/SetPasswordService';
 const clientsRouter = Router();
 
 clientsRouter.post('/firstaccess', async (request, response) => {
-  const {
-    document,
-    date_nasc
-  } = request.body;
+  const { document } = request.body;
 
   const firstAccessServiceClient = new FirstAccessServiceClient();
 
   const responseClient = await firstAccessServiceClient.execute({
     document,
-    date_nasc
   });
 
   delete responseClient.client.password;
@@ -29,7 +25,8 @@ clientsRouter.patch('/password', async (request, response) => {
   const setPasswordService = new SetPasswordService();
 
   await setPasswordService.execute({
-    token, password
+    token,
+    password,
   });
 
   return response.status(204).json();

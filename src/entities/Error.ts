@@ -15,6 +15,12 @@ export default class Error {
   type: string;
 
   @Column({ nullable: true })
+  name: string;
+
+  @Column({ nullable: true })
+  instance_id: string;
+
+  @Column({ nullable: true })
   exception: string;
 
   @CreateDateColumn()

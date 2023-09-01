@@ -2,7 +2,7 @@ export default interface ISlipSankhya {
   NUFIN: string;
   DTNEG: string;
   DTVENC: string;
-  CODBARRA: string;
+  CODIGOBARRA: string;
   VLRDESDOB: string;
   NOSSONUM: string;
   CODBCO: string;
