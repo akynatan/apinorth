@@ -57,7 +57,7 @@ export default class FirstAccessServiceClient {
             offsetPage: '0',
             criteria: {
               expression: {
-                $: `this.CGC_CPF = ${document}`,
+                $: `this.CGC_CPF = '${document}'`,
               },
             },
             entity: {
