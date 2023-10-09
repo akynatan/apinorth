@@ -150,7 +150,7 @@ export default class DownloadslipService {
         throw new AppError(err.message);
       }
 
-      throw new AppError('Erro ao baixar boleto.');
+      throw new AppError('Erro ao fazer download de boleto.');
     }
   }
 }

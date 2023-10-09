@@ -57,7 +57,7 @@ export default class ListSlipsService {
           }),
         });
 
-        throw new AppError('Erro ao buscar notas fiscais.');
+        throw new AppError('Erro ao buscar boletos.');
       }
 
       const responseSlips = response.data.responseBody.entities;
@@ -142,7 +142,7 @@ export default class ListSlipsService {
         throw new AppError(err.message);
       }
 
-      throw new AppError('Erro ao buscar notas fiscais.');
+      throw new AppError('Erro ao buscar boletos.');
     }
   }
 }

@@ -120,7 +120,7 @@ export default class DownloadInvoiceService {
         throw new AppError(err.message);
       }
 
-      throw new AppError('Erro ao buscar notas fiscais.');
+      throw new AppError('Erro ao fazer download da nota fiscal.');
     }
   }
 }
