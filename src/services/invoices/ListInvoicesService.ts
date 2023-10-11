@@ -42,7 +42,7 @@ export default class ListInvoicesService {
               offsetPage: '0',
               criteria: {
                 expression: {
-                  $: `this.CODPARC = ${client.external_id} AND STATUSNOTA = 'L'`,
+                  $: `this.CODPARC = ${client.external_id} AND STATUSNOTA = 'L'  AND (this.CODEMP = 5 OR this.CODEMP = 100 OR this.CODEMP = 11)`,
                 },
               },
               entity: {
