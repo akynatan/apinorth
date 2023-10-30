@@ -3,4 +3,5 @@ export default interface IInvoiceSankhya {
   NUMNOTA: string;
   DTNEG: string;
   VLRNOTA: string;
+  CODTIPOPER: string;
 }

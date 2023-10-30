@@ -23,8 +23,9 @@ invoicesRouter.post('/:id/download', async (request, response) => {
 
   const invoice_id = request.params.id;
   const client_id = request.user.id;
+  const { model_invoice } = request.body;
 
-  const invoice = await downloadInvoiceService.execute(invoice_id, client_id);
+  const invoice = await downloadInvoiceService.execute(invoice_id, client_id, model_invoice);
 
   response.setHeader('Content-Type', 'application/pdf');
 

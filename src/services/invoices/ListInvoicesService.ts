@@ -47,7 +47,7 @@ export default class ListInvoicesService {
               },
               entity: {
                 fieldset: {
-                  list: 'NUNOTA,NUMNOTA,DTNEG,VLRNOTA',
+                  list: 'NUNOTA,NUMNOTA,DTNEG,VLRNOTA,CODTIPOPER',
                 },
               },
             },

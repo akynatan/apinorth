@@ -15,11 +15,20 @@ export default class DownloadInvoiceService {
   public async execute(
     invoice_id: string | undefined,
     client_id: string,
+    model_invoice: string
   ): Promise<any> {
     try {
       if (!invoice_id) {
         throw new AppError('Nota Fiscal inválida.');
       }
+
+      const modelsInvoice = {
+        '1101': 148, //21
+        '1100': 148,
+        '1118': 130, //debito
+      };
+
+      const codReport = modelsInvoice[model_invoice];
 
       await this.northSankhyaCloudRequest.init();
       await this.northSankhyaCloudRequest.initMgeSession();
@@ -31,7 +40,7 @@ export default class DownloadInvoiceService {
           serviceName: 'VisualizadorRelatorios.visualizarRelatorio',
           requestBody: {
             relatorio: {
-              nuRfe: '132',
+              nuRfe: codReport,
               parametros: {
                 parametro: {
                   nome: 'NUNOTA',
@@ -62,7 +71,7 @@ export default class DownloadInvoiceService {
           }),
         });
 
-        throw new AppError('Boleto não encontrado.');
+        throw new AppError('Nota fiscal não encontrado.');
       }
 
       const fileKey = response.data.responseBody?.chave?.valor;
