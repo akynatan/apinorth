@@ -15,7 +15,7 @@ export default class DownloadInvoiceService {
   public async execute(
     invoice_id: string | undefined,
     client_id: string,
-    model_invoice: string
+    model_invoice: string,
   ): Promise<any> {
     try {
       if (!invoice_id) {
