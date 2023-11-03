@@ -34,7 +34,7 @@ export default class ListSlipsService {
               offsetPage: '0',
               criteria: {
                 expression: {
-                  $: `NUMNOTA = ${invoice_id} AND RECDESP = 1`,
+                  $: `NUMNOTA = ${invoice_id} AND RECDESP = 1  AND this.CODEMP in (5,100, 11)`,
                 },
               },
               entity: {
