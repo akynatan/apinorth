@@ -1,18 +1,22 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
 class SankhyaRequest {
-  private token: string
-  private baseURl: string = 'https://api.sankhya.com.br/gateway/v1/mge'
+  private token: string;
+  private baseURl: string = 'https://api.sankhya.com.br/gateway/v1/mge';
 
   public async init() {
-    const responseToken = await axios.post('https://api.sankhya.com.br/login', {}, {
-      headers: {
-        token: process.env.SANKHYA_TOKEN,
-        appKey: process.env.SANKHYA_APP_KEY,
-        username: process.env.SANKHYA_USERNAME,
-        password: process.env.SANKHYA_PASSWORD,
-      }
-    })
+    const responseToken = await axios.post(
+      'https://api.sankhya.com.br/login',
+      {},
+      {
+        headers: {
+          token: process.env.SANKHYA_TOKEN,
+          appKey: process.env.SANKHYA_APP_KEY,
+          username: process.env.SANKHYA_USERNAME_EMAIL,
+          password: process.env.SANKHYA_PASSWORD,
+        },
+      },
+    );
 
     if (responseToken.status !== 200) {
       throw 'Falha na comunicação com servidor';
@@ -26,9 +30,9 @@ class SankhyaRequest {
       ...config,
       url: `${this.baseURl}/${config.url}`,
       headers: {
-        Authorization: `Bearer ${this.token}`
-      }
-    })
+        Authorization: `Bearer ${this.token}`,
+      },
+    });
   }
 }
 
