@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 import AuthenticationClientService from '@services/clients/AuthenticationClientService';
-import { classToClass } from 'class-transformer'
+import { classToClass } from 'class-transformer';
 
 const authenticationRouter = Router();
 

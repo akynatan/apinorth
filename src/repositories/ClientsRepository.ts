@@ -18,7 +18,7 @@ export default class ClientsRepository implements IClientsRepository {
 
   public async findByDocument(document: string): Promise<Client | undefined> {
     const client = await this.ormRepository.findOne({
-      where: { document }
+      where: { document },
     });
 
     return client;
@@ -49,5 +49,13 @@ export default class ClientsRepository implements IClientsRepository {
     });
 
     return clients;
+  }
+
+  public async findByEmail(email: string): Promise<Client | undefined> {
+    const user = await this.ormRepository.findOne({
+      where: { email },
+    });
+
+    return user;
   }
 }

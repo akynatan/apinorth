@@ -17,9 +17,9 @@ passwordRouter.post('/forgot', async (request, response) => {
 passwordRouter.post('/reset', async (request, response) => {
   const { token, password } = request.body;
 
-  const sendForgotPasswordEmail = new ResetPasswordService();
+  const resetPasswordService = new ResetPasswordService();
 
-  await sendForgotPasswordEmail.execute({ token, password });
+  await resetPasswordService.execute({ token, password });
 
   return response.status(204).json();
 });
